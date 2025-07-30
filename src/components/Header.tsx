@@ -12,7 +12,7 @@ export const Header = ({ onThemeToggle }: HeaderProps) => {
         <ChartNoAxesColumnDecreasing />
         <div>acme</div>
       </div>
-      <Button icon={<SunIcon size={16} />} onClick={onThemeToggle} />
+      <Button icon={<SunIcon size={18} />} onClick={onThemeToggle} />
     </div>
   );
 };

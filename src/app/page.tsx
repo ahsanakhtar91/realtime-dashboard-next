@@ -24,7 +24,7 @@ export default function Home() {
   }, []);
 
   const autofetchingIcon = useMemo(() => {
-    return autofetching ? <PauseIcon size={14} /> : <PlayIcon size={14} />;
+    return autofetching ? <PauseIcon size={16} /> : <PlayIcon size={16} />;
   }, [autofetching]);
 
   return (

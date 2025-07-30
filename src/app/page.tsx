@@ -1,9 +1,27 @@
+"use client";
+import { useCallback, useEffect, useState } from "react";
 import { Header } from "@/components/Header";
+import cn from "classnames";
 
 export default function Home() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    setDarkMode(localStorage.getItem("theme") === "dark");
+  }, []);
+
+  const handleThemeToggle = useCallback(() => {
+    setDarkMode((prev) => !prev);
+    localStorage.setItem("theme", darkMode ? "light" : "dark");
+  }, [darkMode]);
+
   return (
-    <div className="font-sans items-center justify-items-center">
-      <Header />
+    <div
+      className={cn("font-sans items-center justify-items-center", {
+        dark: darkMode,
+      })}
+    >
+      <Header onThemeToggle={handleThemeToggle} />
     </div>
   );
 }

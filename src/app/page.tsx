@@ -1,13 +1,14 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Header } from "@/components/Header";
 import cn from "classnames";
 import { Button } from "@/components/Button";
-import { PlayIcon } from "lucide-react";
+import { PauseIcon, PlayIcon, RefreshCw } from "lucide-react";
 import { Text } from "@/components/Text";
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
+  const [autofetching, setAutofetching] = useState(false);
 
   useEffect(() => {
     setDarkMode(localStorage.getItem("theme") === "dark");
@@ -18,13 +19,26 @@ export default function Home() {
     localStorage.setItem("theme", darkMode ? "light" : "dark");
   }, [darkMode]);
 
+  const toggleAutofetching = useCallback(() => {
+    setAutofetching((prev) => !prev);
+  }, []);
+
+  const autofetchingIcon = useMemo(() => {
+    return autofetching ? <PauseIcon size={14} /> : <PlayIcon size={14} />;
+  }, [autofetching]);
+
   return (
     <div className={cn({ dark: darkMode })}>
       <div className="font-sans items-center justify-items-center bg-root h-[100vh]">
         <Header onThemeToggle={handleThemeToggle} />
-        <div className="flex flex-row w-full items-center justify-between p-4">
+        <div className="flex w-full items-center justify-between p-4">
           <Text className="text-xl">Dashboard</Text>
-          <Button icon={<PlayIcon size={14} />}>Resume auto-fetch</Button>
+          <div className="flex gap-2">
+            <Button icon={autofetchingIcon} onClick={toggleAutofetching}>
+              {autofetching ? "Pause auto-fetch" : "Resume auto-fetch"}
+            </Button>
+            <Button icon={<RefreshCw size={16} />} outlined />
+          </div>
         </div>
       </div>
     </div>

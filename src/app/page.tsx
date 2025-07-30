@@ -1,8 +1,8 @@
-import { Header } from "./components/Header/Header";
+import { Header } from "@/components/Header";
 
 export default function Home() {
   return (
-    <div className="flex font-[Geist] items-center justify-items-center">
+    <div className="font-sans items-center justify-items-center">
       <Header />
     </div>
   );

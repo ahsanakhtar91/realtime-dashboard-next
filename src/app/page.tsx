@@ -2,6 +2,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import cn from "classnames";
+import { Button } from "@/components/Button";
+import { PlayIcon } from "lucide-react";
+import { Text } from "@/components/Text";
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
@@ -16,12 +19,14 @@ export default function Home() {
   }, [darkMode]);
 
   return (
-    <div
-      className={cn("font-sans items-center justify-items-center", {
-        dark: darkMode,
-      })}
-    >
-      <Header onThemeToggle={handleThemeToggle} />
+    <div className={cn({ dark: darkMode })}>
+      <div className="font-sans items-center justify-items-center bg-root h-[100vh]">
+        <Header onThemeToggle={handleThemeToggle} />
+        <div className="flex flex-row w-full items-center justify-between p-4">
+          <Text className="text-xl">Dashboard</Text>
+          <Button icon={<PlayIcon size={14} />}>Resume auto-fetch</Button>
+        </div>
+      </div>
     </div>
   );
 }

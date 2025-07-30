@@ -1,11 +1,5 @@
 import { Button } from "@/components/Button";
-import {
-  AppWindowIcon,
-  ChartNoAxesColumnDecreasing,
-  ChartSplineIcon,
-  LayoutDashboardIcon,
-  SunIcon,
-} from "lucide-react";
+import { ChartNoAxesColumnDecreasing, SunIcon } from "lucide-react";
 
 type HeaderProps = {
   onThemeToggle: () => void;

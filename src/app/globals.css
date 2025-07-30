@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafdff;
+  --root: #f8fbfc;
   --foreground: #181b1c;
+  --background: #fafdff;
   --border: #d8dcde;
   --bars: #07557c;
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --color-root: var(--root);
   --color-foreground: var(--foreground);
+  --color-background: var(--background);
   --color-border: var(--border);
   --color-bars: var(--bars);
   --font-sans: var(--font-geist-sans);
@@ -17,8 +19,9 @@
 }
 
 .dark {
-  --background: #181b1c;
+  --root: #3e4243;
   --foreground: #fafdff;
+  --background: #181b1c;
   --border: #6b6f71;
   --bars: #0d72a5;
 }

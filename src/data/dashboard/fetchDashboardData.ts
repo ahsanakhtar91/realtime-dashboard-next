@@ -2,8 +2,9 @@ import {
   DASHBOARD_API_ENDPOINT,
   DASHBOARD_API_AUTH_TOKEN,
 } from "@/constants/constants";
+import { DashboardApiResponse } from "./types";
 
-export const fetchDashboardData = async (): Promise<any> => {
+export const fetchDashboardData = async (): Promise<DashboardApiResponse> => {
   const response = await fetch(DASHBOARD_API_ENDPOINT, {
     method: "GET",
     headers: {

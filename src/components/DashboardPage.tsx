@@ -2,9 +2,14 @@
 import { useCallback, useMemo, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/Button";
-import { PauseIcon, PlayIcon, RefreshCw } from "lucide-react";
+import { PauseCircleIcon, PlayIcon, RefreshIcon } from "@shopify/polaris-icons";
 import { Text } from "@/components/Text";
 import { toggleTheme } from "@/app/actions/toggleTheme";
+
+const iconProps = {
+  width: 18,
+  className: "fill-current",
+};
 
 export default function DashboardPage() {
   const [autofetching, setAutofetching] = useState(false);
@@ -14,7 +19,11 @@ export default function DashboardPage() {
   }, []);
 
   const autofetchingIcon = useMemo(() => {
-    return autofetching ? <PauseIcon size={16} /> : <PlayIcon size={16} />;
+    return autofetching ? (
+      <PauseCircleIcon {...iconProps} />
+    ) : (
+      <PlayIcon {...iconProps} />
+    );
   }, [autofetching]);
 
   return (
@@ -26,7 +35,7 @@ export default function DashboardPage() {
           <Button icon={autofetchingIcon} onClick={toggleAutofetching}>
             {autofetching ? "Pause auto-fetch" : "Resume auto-fetch"}
           </Button>
-          <Button icon={<RefreshCw size={16} />} outlined />
+          <Button icon={<RefreshIcon {...iconProps} />} outlined />
         </div>
       </div>
     </div>

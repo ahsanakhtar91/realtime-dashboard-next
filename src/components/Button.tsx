@@ -21,7 +21,7 @@ export const Button = ({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1 px-2 py-2 rounded-lg border text-[13px] font-normal h-8",
+        "flex items-center gap-1 px-2 py-2 rounded-lg border text-[13px] font-normal h-8",
         "transition-opacity cursor-pointer hover:opacity-75 active:opacity-100",
         "bg-[var(--color-background)] text-[var(--color-text)]",
         outlined || children

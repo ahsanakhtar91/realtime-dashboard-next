@@ -23,9 +23,9 @@ export const Button = ({
       className={cn(
         "inline-flex items-center gap-2 px-2 py-2 rounded-lg border text-[13px] font-normal h-8",
         "transition-opacity cursor-pointer hover:opacity-75 active:opacity-100",
-        "bg-background text-foreground",
+        "bg-[var(--color-background)] text-[var(--color-text)]",
         outlined || children
-          ? "bg-background border-border"
+          ? "bg-[var(--color-background)] border-[var(--color-border)]"
           : "bg-transparent border-none",
         className
       )}

@@ -10,7 +10,7 @@ export const Text = ({ children, className }: TextProps) => {
   return (
     <div
       className={cn(
-        "font-normal text-foreground transition-colors",
+        "font-normal text-[var(--color-text)] transition-colors",
         className
       )}
     >

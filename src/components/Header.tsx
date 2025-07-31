@@ -8,9 +8,9 @@ type HeaderProps = {
 export const Header = ({ onThemeToggle }: HeaderProps) => {
   return (
     <div className="flex w-full justify-between p-3 border-b border-[var(--color-border)] bg-[var(--color-background)] transition-colors">
-      <div className="text-[var(--color-chart-bars)] font-bold text-[20px] flex items-center gap-2">
+      <div className="text-[var(--color-chart-bars)] flex items-center gap-1">
         <ChartNoAxesColumnDecreasing />
-        <div>acme</div>
+        <div className="font-normal text-2xl">acme</div>
       </div>
       <Button icon={<SunIcon size={18} />} onClick={onThemeToggle} />
     </div>

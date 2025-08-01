@@ -27,7 +27,8 @@ function getTokensByTheme(theme: Theme) {
 
 export const metadata: Metadata = {
   title: "ACME | Real-Time Dashboard",
-  description: "ACME is a configurable, real-time dashboard for monitoring live data.",
+  description:
+    "ACME is a configurable, real-time dashboard for monitoring live data.",
 };
 
 export default async function RootLayout({

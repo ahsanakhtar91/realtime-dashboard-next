@@ -4,16 +4,16 @@ import { Button } from "./Button";
 import { XIcon } from "@shopify/polaris-icons";
 
 interface WidgetProps {
-  heading: string;
   className?: string;
+  heading: string;
   canDelete?: boolean;
   onDelete?: () => void;
   children?: React.ReactNode;
 }
 
 const Widget: React.FC<WidgetProps> = ({
-  heading,
   className,
+  heading,
   canDelete,
   onDelete,
   children,

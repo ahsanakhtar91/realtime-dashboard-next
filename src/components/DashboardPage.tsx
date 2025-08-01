@@ -7,13 +7,18 @@ import { Text } from "@/components/Text";
 import { toggleTheme } from "@/app/actions/toggleTheme";
 import Widget from "@/components/Widget";
 import { useBreakpoints } from "@shopify/polaris";
+import { deleteWidget } from "@/app/actions/deleteWidget";
 
 const iconProps = {
   width: 18,
   className: "fill-current",
 };
 
-export default function DashboardPage() {
+type DashboardPageProps = {
+  deletedWidgets?: string[];
+};
+
+export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
   const [autofetching, setAutofetching] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
@@ -30,6 +35,8 @@ export default function DashboardPage() {
       <PlayIcon {...iconProps} />
     );
   }, [autofetching]);
+
+  console.log(deletedWidgets);
 
   const widgets = useMemo(
     () => ({
@@ -90,64 +97,69 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Widgets Row 1 */}
-      <div className="w-full px-4 pb-4 flex gap-4 flex-col lg:flex-row">
-        <Widget
-          heading={widgets.row1[0].heading}
-          canDelete={editMode}
-          onDelete={() => {
-            console.log(widgets.row1[0].id);
-          }}
-        >
-          {widgets.row1[0].content}
-        </Widget>
+      {/* Widgets in Row #1 (Summary, Orders, Top Products) */}
+      <div className="w-full px-4 flex lg:gap-4 flex-col lg:flex-row">
+        {!deletedWidgets?.includes(widgets.row1[0].id) && (
+          <Widget
+            heading={widgets.row1[0].heading}
+            canDelete={editMode}
+            onDelete={() => deleteWidget(widgets.row1[0].id)}
+            className="mb-4"
+          >
+            {widgets.row1[0].content}
+          </Widget>
+        )}
 
-        <div className="flex gap-4 flex-2 flex-col sm:flex-row">
-          {widgets.row1.slice(1).map((widget) => (
+        <div className="flex sm:gap-4 flex-2 flex-col sm:flex-row">
+          {widgets.row1
+            .slice(1)
+            .filter((widget) => !deletedWidgets?.includes(widget.id))
+            .map((widget) => (
+              <Widget
+                className="mb-4"
+                key={widget.id}
+                heading={widget.heading}
+                canDelete={editMode}
+                onDelete={() => deleteWidget(widget.id)}
+              >
+                {widget.content}
+              </Widget>
+            ))}
+        </div>
+      </div>
+
+      {/* Widgets in Row #2 (Total Sales, Payments History) */}
+      <div className="w-full px-4 flex sm:gap-4 flex-col sm:flex-row">
+        {widgets.row2
+          .filter((widget) => !deletedWidgets?.includes(widget.id))
+          .map((widget) => (
             <Widget
+              className="mb-4"
               key={widget.id}
               heading={widget.heading}
               canDelete={editMode}
-              onDelete={() => {
-                console.log(widget.id);
-              }}
+              onDelete={() => deleteWidget(widget.id)}
             >
               {widget.content}
             </Widget>
           ))}
-        </div>
       </div>
 
-      {/* Widgets Row 2 */}
-      <div className="w-full px-4 pb-4 flex gap-4 flex-col sm:flex-row">
-        {widgets.row2.map((widget) => (
-          <Widget
-            key={widget.id}
-            heading={widget.heading}
-            canDelete={editMode}
-            onDelete={() => {
-              console.log(widget.id);
-            }}
-          >
-            {widget.content}
-          </Widget>
-        ))}
-      </div>
-
-      {/* Widgets Row 3 */}
-      <div className="w-full px-4 pb-4">
-        {widgets.row3.map((widget) => (
-          <Widget
-            key={widget.id}
-            heading={widget.heading}
-            canDelete={editMode}
-            onDelete={() => {
-              console.log(widget.id);
-            }}
-          >
-            {widget.content}
-          </Widget>
-        ))}
+      {/* Widget in Row #3 (Locations) */}
+      <div className="w-full px-4">
+        {widgets.row3
+          .filter((widget) => !deletedWidgets?.includes(widget.id))
+          .map((widget) => (
+            <Widget
+              className="mb-4"
+              key={widget.id}
+              heading={widget.heading}
+              canDelete={editMode}
+              onDelete={() => deleteWidget(widget.id)}
+            >
+              {widget.content}
+            </Widget>
+          ))}
       </div>
     </div>
   );

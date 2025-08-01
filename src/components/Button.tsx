@@ -21,11 +21,12 @@ export const Button = ({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex items-center gap-1 px-2 py-2 rounded-lg border text-[13px] font-normal h-8",
+        "flex items-center gap-1 py-2 rounded-lg border text-[13px] font-normal h-8 whitespace-nowrap",
         "transition-opacity cursor-pointer hover:opacity-75 active:opacity-100 text-[var(--color-text)]",
         outlined || children
           ? "bg-[var(--color-background)] border-[var(--color-border)]"
           : "bg-transparent border-none",
+        icon ? "px-1.5" : "px-2",
         className
       )}
     >

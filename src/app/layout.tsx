@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { ReactNode, CSSProperties } from "react";
 import { cookies } from "next/headers";
 import { Theme } from "@/app/types";
+import { Metadata } from "next";
 
 const geistSans = Geist({ subsets: ["latin"] });
 
@@ -24,6 +25,11 @@ function getTokensByTheme(theme: Theme) {
       };
 }
 
+export const metadata: Metadata = {
+  title: "ACME | Real-Time Dashboard",
+  description: "ACME is a configurable, real-time dashboard for monitoring live data.",
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -41,7 +47,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body data-theme={theme} style={styleTokens as CSSProperties}>
+      <body style={styleTokens as CSSProperties} data-theme={theme}>
         {children}
       </body>
     </html>

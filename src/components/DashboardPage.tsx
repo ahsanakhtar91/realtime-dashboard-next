@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { PauseCircleIcon, PlayIcon, RefreshIcon } from "@shopify/polaris-icons";
 import { Text } from "@/components/Text";
 import { toggleTheme } from "@/app/actions/toggleTheme";
-import Widget from "./Widget";
+import Widget from "@/components/Widget";
 
 const iconProps = {
   width: 18,

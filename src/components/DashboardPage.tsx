@@ -1,8 +1,13 @@
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/Button";
-import { PauseCircleIcon, PlayIcon, RefreshIcon } from "@shopify/polaris-icons";
+import {
+  PauseCircleIcon,
+  PlayIcon,
+  RedoIcon,
+  RefreshIcon,
+} from "@shopify/polaris-icons";
 import { Text } from "@/components/Text";
 import { toggleTheme } from "@/app/actions/toggleTheme";
 import Widget from "@/components/Widget";
@@ -16,6 +21,11 @@ import {
   DashboardApiError,
   DashboardApiResponse,
 } from "@/data/dashboard/types";
+import dynamic from "next/dynamic";
+const MapView = dynamic(() => import("@/components/widgets/MapView"), {
+  ssr: false,
+  loading: () => <p>Loading Map...</p>,
+});
 
 const iconProps = {
   height: 18,
@@ -30,6 +40,8 @@ export default function DashboardPage({
   const [autofetch, setAutofetch] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
+  const manualfetch = useRef(false);
+
   const { data, isLoading, isRefetching, refetch, error } = useQuery<
     DashboardApiResponse,
     DashboardApiError
@@ -38,14 +50,19 @@ export default function DashboardPage({
     queryFn: fetchDashboardData,
     refetchInterval: autofetch ? 5000 : false, // refetch data every 5 seconds (if autofetch is true)
     refetchIntervalInBackground: false,
-    retry: 0, // retry once on failure
+    retry: false,
     staleTime: 1000 * 60, // Consider data stale after 1 minute
   });
 
-  const loading = useMemo(
-    () => isLoading || isRefetching,
-    [isLoading, isRefetching]
-  );
+  const dashboardData = useMemo(() => data?.data.dashboardData, [data]);
+
+  const loading = useMemo(() => {
+    if (manualfetch.current) return true;
+
+    return (isLoading || isRefetching) && !autofetch;
+  }, [isLoading, isRefetching, autofetch]);
+
+  console.log("Dashboard:", loading, dashboardData, error);
 
   useEffect(() => {
     if (error) {
@@ -56,7 +73,7 @@ export default function DashboardPage({
         </div>,
         {
           className: "text-sm",
-          autoClose: 2000,
+          autoClose: 2500,
           position: "bottom-right",
           theme: document.body.getAttribute("data-theme") as Theme,
         }
@@ -64,13 +81,11 @@ export default function DashboardPage({
     }
   }, [error]);
 
-  const dashboardData = useMemo(() => data?.data.dashboardData, [data]);
-
   const toggleAutofetch = useCallback(() => {
     setAutofetch((prev) => !prev);
   }, []);
 
-  const autofetchIcon = useMemo(() => {
+  const playPauseIcon = useMemo(() => {
     return autofetch ? (
       <PauseCircleIcon {...iconProps} />
     ) : (
@@ -79,8 +94,6 @@ export default function DashboardPage({
   }, [autofetch]);
 
   const { smDown } = useBreakpoints();
-
-  console.log("Dashboard Data:", dashboardData, error);
 
   const widgets = useMemo(
     () => ({
@@ -117,11 +130,11 @@ export default function DashboardPage({
         {
           id: "locations",
           heading: "Locations",
-          content: <div>Locations Content...</div>,
+          content: <MapView locations={dashboardData?.map?.locations ?? []} />,
         },
       ],
     }),
-    []
+    [dashboardData?.map?.locations]
   );
 
   const widgetCommonProps = {
@@ -140,7 +153,13 @@ export default function DashboardPage({
         <Text className="text-xl">Dashboard</Text>
         <div className="flex gap-2">
           <Button
-            icon={autofetchIcon}
+            icon={
+              autofetch && isRefetching && !loading ? (
+                <RefreshIcon width={18} className="fill-current animate-spin" />
+              ) : (
+                playPauseIcon
+              )
+            }
             disabled={loading}
             onClick={toggleAutofetch}
           >
@@ -150,7 +169,11 @@ export default function DashboardPage({
             icon={<RefreshIcon {...iconProps} />}
             outlined
             disabled={loading}
-            onClick={refetch}
+            onClick={async () => {
+              manualfetch.current = true;
+              await refetch();
+              manualfetch.current = false;
+            }}
           />
         </div>
       </div>

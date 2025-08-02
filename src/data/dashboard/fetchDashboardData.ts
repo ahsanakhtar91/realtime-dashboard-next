@@ -1,7 +1,7 @@
 import { DashboardApiResponse } from "./types";
 
 export const fetchDashboardData = async (): Promise<DashboardApiResponse> => {
-  const response = await fetch("/api/dashboard-data");
+  const response = await fetch("/api/dashboard");
 
   if (!response.ok) {
     const errorData = await response.json();

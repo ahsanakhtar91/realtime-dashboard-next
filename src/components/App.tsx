@@ -1,6 +1,6 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
+import { ToastContainer } from "react-toastify";
 import DashboardPage from "./DashboardPage";
 
 export default function App({ deletedWidgets }: { deletedWidgets?: string[] }) {
@@ -8,6 +8,7 @@ export default function App({ deletedWidgets }: { deletedWidgets?: string[] }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer />
       <DashboardPage deletedWidgets={deletedWidgets} />
     </QueryClientProvider>
   );

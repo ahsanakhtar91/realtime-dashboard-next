@@ -14,6 +14,9 @@ function getTokensByTheme(theme: Theme) {
         "--color-text": "#181b1c",
         "--color-background": "#fafdff",
         "--color-border": "#d8dcde",
+        "--color-text-disabled": "#74797b",
+        "--color-background-disabled": "#d8dcde",
+        "--color-border-disabled": "#74797b",
         "--color-chart-bars": "#07557c",
       }
     : {
@@ -21,6 +24,9 @@ function getTokensByTheme(theme: Theme) {
         "--color-text": "#fafdff",
         "--color-background": "#181b1c",
         "--color-border": "#6b6f71",
+        "--color-text-disabled": "#b3b5b6",
+        "--color-background-disabled": "#6b6f71",
+        "--color-border-disabled": "#b3b5b6",
         "--color-chart-bars": "#0d72a5",
       };
 }
@@ -51,9 +57,8 @@ export default async function RootLayout({
       lang="en"
       style={styleTokens as CSSProperties}
       className="bg-[var(--color-root)]"
-      data-theme={theme}
     >
-      <body>{children}</body>
+      <body data-theme={theme}>{children}</body>
     </html>
   );
 }

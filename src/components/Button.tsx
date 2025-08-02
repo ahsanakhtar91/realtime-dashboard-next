@@ -6,6 +6,7 @@ type ButtonProps = {
   children?: React.ReactNode;
   className?: string;
   outlined?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 };
 
@@ -14,19 +15,24 @@ export const Button = ({
   children,
   className = "",
   outlined,
+  disabled,
   onClick,
 }: ButtonProps) => {
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
       className={cn(
-        "flex items-center gap-1 py-2 rounded-lg border text-[13px] font-normal h-8 whitespace-nowrap",
-        "transition-opacity cursor-pointer hover:opacity-75 active:opacity-100 text-[var(--color-text)]",
-        outlined || children
-          ? "bg-[var(--color-background)] border-[var(--color-border)]"
-          : "bg-transparent border-none",
-        icon ? "px-1.5" : "px-2",
+        "flex items-center gap-1 py-2 rounded-lg text-[13px] font-normal h-8 whitespace-nowrap transition-all",
+        {
+          "border border-[var(--color-border)]": outlined || children,
+          "px-1.5": icon,
+          "px-2": !icon,
+          "cursor-not-allowed text-[var(--color-text-disabled)] bg-[var(--color-background-disabled)] border-[var(--color-border-disabled)]":
+            disabled,
+          "cursor-pointer text-[var(--color-text)] bg-[var(--color-background)] border-[var(--color-border)] hover:opacity-75 active:opacity-100":
+            !disabled,
+        },
         className
       )}
     >

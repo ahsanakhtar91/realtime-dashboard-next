@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/Button";
 import { PauseCircleIcon, PlayIcon, RefreshIcon } from "@shopify/polaris-icons";
@@ -9,8 +9,9 @@ import Widget from "@/components/Widget";
 import { useBreakpoints } from "@shopify/polaris";
 import { deleteWidget } from "@/app/actions/deleteWidget";
 import { useQuery } from "@tanstack/react-query";
-import { DashboardApiResponse } from "@/data/dashboard/types";
 import { fetchDashboardData } from "@/data/dashboard/fetchDashboardData";
+import { Theme } from "@/app/types";
+import { toast } from "react-toastify";
 
 const iconProps = {
   height: 18,
@@ -22,35 +23,47 @@ export default function DashboardPage({
 }: {
   deletedWidgets?: string[];
 }) {
-  const [autofetching, setAutofetching] = useState(false);
+  const [autofetch, setAutofetch] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  const {
-    data,
-    isLoading: loading,
-    error,
-  } = useQuery({
+  const { data, isLoading, isRefetching, refetch, error } = useQuery({
     queryKey: ["dashboardData"],
     queryFn: fetchDashboardData,
-    refetchInterval: autofetching ? 5000 : false, // refetch data every 5 seconds (if autofetching is true)
+    refetchInterval: autofetch ? 5000 : false, // refetch data every 5 seconds (if autofetch is true)
     refetchIntervalInBackground: false,
     retry: 0, // retry once on failure
     staleTime: 1000 * 60, // Consider data stale after 1 minute
   });
 
+  const loading = useMemo(
+    () => isLoading || isRefetching,
+    [isLoading, isRefetching]
+  );
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message, {
+        toastId: "error",
+        autoClose: 2000,
+        position: "bottom-right",
+        theme: document.body.getAttribute("data-theme") as Theme,
+      });
+    }
+  }, [error]);
+
   const dashboardData = useMemo(() => data?.data.dashboardData, [data]);
 
-  const toggleAutofetching = useCallback(() => {
-    setAutofetching((prev) => !prev);
+  const toggleAutofetch = useCallback(() => {
+    setAutofetch((prev) => !prev);
   }, []);
 
-  const autofetchingIcon = useMemo(() => {
-    return autofetching ? (
+  const autofetchIcon = useMemo(() => {
+    return autofetch ? (
       <PauseCircleIcon {...iconProps} />
     ) : (
       <PlayIcon {...iconProps} />
     );
-  }, [autofetching]);
+  }, [autofetch]);
 
   const { smDown } = useBreakpoints();
 
@@ -113,10 +126,19 @@ export default function DashboardPage({
       <div className="flex w-full items-center justify-between p-4 gap-2">
         <Text className="text-xl">Dashboard</Text>
         <div className="flex gap-2">
-          <Button icon={autofetchingIcon} onClick={toggleAutofetching}>
-            {`${smDown ? "" : autofetching ? "Pause " : "Start "} auto-fetch`}
+          <Button
+            icon={autofetchIcon}
+            disabled={loading}
+            onClick={toggleAutofetch}
+          >
+            {`${smDown ? "" : autofetch ? "Pause" : "Start"} auto-fetch`}
           </Button>
-          <Button icon={<RefreshIcon {...iconProps} />} outlined />
+          <Button
+            icon={<RefreshIcon {...iconProps} />}
+            outlined
+            disabled={loading}
+            onClick={refetch}
+          />
         </div>
       </div>
 

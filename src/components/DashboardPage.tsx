@@ -12,6 +12,10 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchDashboardData } from "@/data/dashboard/fetchDashboardData";
 import { Theme } from "@/app/types";
 import { toast } from "react-toastify";
+import {
+  DashboardApiError,
+  DashboardApiResponse,
+} from "@/data/dashboard/types";
 
 const iconProps = {
   height: 18,
@@ -26,7 +30,10 @@ export default function DashboardPage({
   const [autofetch, setAutofetch] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  const { data, isLoading, isRefetching, refetch, error } = useQuery({
+  const { data, isLoading, isRefetching, refetch, error } = useQuery<
+    DashboardApiResponse,
+    DashboardApiError
+  >({
     queryKey: ["dashboardData"],
     queryFn: fetchDashboardData,
     refetchInterval: autofetch ? 5000 : false, // refetch data every 5 seconds (if autofetch is true)
@@ -42,12 +49,18 @@ export default function DashboardPage({
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message, {
-        toastId: "error",
-        autoClose: 2000,
-        position: "bottom-right",
-        theme: document.body.getAttribute("data-theme") as Theme,
-      });
+      toast.error(
+        <div className="flex flex-col gap-1">
+          <div className="font-bold">{error.message}</div>
+          {error.subMessage && <div>{error.subMessage}</div>}
+        </div>,
+        {
+          className: "text-sm",
+          autoClose: 2000,
+          position: "bottom-right",
+          theme: document.body.getAttribute("data-theme") as Theme,
+        }
+      );
     }
   }, [error]);
 
@@ -67,7 +80,7 @@ export default function DashboardPage({
 
   const { smDown } = useBreakpoints();
 
-  console.log("Dashboard Data:", dashboardData);
+  console.log("Dashboard Data:", dashboardData, error);
 
   const widgets = useMemo(
     () => ({

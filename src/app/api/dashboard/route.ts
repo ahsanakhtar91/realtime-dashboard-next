@@ -15,19 +15,19 @@ export async function GET(): Promise<NextResponse> {
     });
 
     if (!response.ok) {
+      const error = await response.json();
       return NextResponse.json(
-        { message: "Failed to fetch dashboard data" },
-        { status: 400 }
+        { message: error.message, subMessage: error?.secrectMessage ?? "" },
+        { status: 500 }
       );
     }
 
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Dashboard API Error:", error);
     return NextResponse.json(
-      { message: "Failed to fetch dashboard data" },
-      { status: 500 }
+      { message: (error as Error).message },
+      { status: 400 }
     );
   }
 }

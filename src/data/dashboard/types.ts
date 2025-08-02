@@ -43,3 +43,8 @@ type Location = {
   label: string;
   activity: number;
 };
+
+export type DashboardApiError = {
+  message: string;
+  subMessage?: string;
+};

@@ -35,11 +35,11 @@ export const Header = ({
         />
       </div>
       <div className="flex items-center gap-1 text-[var(--color-chart-bars)]">
-        <ChartVerticalFilledIcon width={26} className="fill-current" />
+        <ChartVerticalFilledIcon height={26} className="fill-current" />
         <div className="font-normal text-2xl">acme</div>
       </div>
       <Button
-        icon={<SunIcon width={20} className="fill-current" />}
+        icon={<SunIcon height={20} className="fill-current" />}
         onClick={onThemeToggle}
       />
     </div>

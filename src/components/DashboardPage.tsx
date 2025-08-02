@@ -8,21 +8,37 @@ import { toggleTheme } from "@/app/actions/toggleTheme";
 import Widget from "@/components/Widget";
 import { useBreakpoints } from "@shopify/polaris";
 import { deleteWidget } from "@/app/actions/deleteWidget";
+import { useQuery } from "@tanstack/react-query";
+import { DashboardApiResponse } from "@/data/dashboard/types";
+import { fetchDashboardData } from "@/data/dashboard/fetchDashboardData";
 
 const iconProps = {
-  width: 18,
+  height: 18,
   className: "fill-current",
 };
 
-type DashboardPageProps = {
+export default function DashboardPage({
+  deletedWidgets,
+}: {
   deletedWidgets?: string[];
-};
-
-export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
+}) {
   const [autofetching, setAutofetching] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  const { smDown } = useBreakpoints();
+  const {
+    data,
+    isLoading: loading,
+    error,
+  } = useQuery({
+    queryKey: ["dashboardData"],
+    queryFn: fetchDashboardData,
+    refetchInterval: autofetching ? 5000 : false, // refetch data every 5 seconds (if autofetching is true)
+    refetchIntervalInBackground: false,
+    retry: 0, // retry once on failure
+    staleTime: 1000 * 60, // Consider data stale after 1 minute
+  });
+
+  const dashboardData = useMemo(() => data?.data.dashboardData, [data]);
 
   const toggleAutofetching = useCallback(() => {
     setAutofetching((prev) => !prev);
@@ -36,7 +52,9 @@ export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
     );
   }, [autofetching]);
 
-  console.log(deletedWidgets);
+  const { smDown } = useBreakpoints();
+
+  console.log("Dashboard Data:", dashboardData);
 
   const widgets = useMemo(
     () => ({
@@ -80,8 +98,13 @@ export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
     []
   );
 
+  const widgetCommonProps = {
+    canDelete: editMode,
+    loading,
+  };
+
   return (
-    <div className="font-sans items-center bg-[var(--color-root)] text-[var(--color-text)] h-[100vh] transition-colors leading-4">
+    <div className="font-sans items-center text-[var(--color-text)] h-full pb-4 transition-colors leading-4">
       <Header
         onThemeToggle={toggleTheme}
         editMode={editMode}
@@ -101,10 +124,10 @@ export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
       <div className="w-full px-4 flex lg:gap-4 flex-col lg:flex-row">
         {!deletedWidgets?.includes(widgets.row1[0].id) && (
           <Widget
-            heading={widgets.row1[0].heading}
-            canDelete={editMode}
-            onDelete={() => deleteWidget(widgets.row1[0].id)}
             className="mb-4"
+            heading={widgets.row1[0].heading}
+            {...widgetCommonProps}
+            onDelete={() => deleteWidget(widgets.row1[0].id)}
           >
             {widgets.row1[0].content}
           </Widget>
@@ -119,7 +142,7 @@ export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
                 className="mb-4"
                 key={widget.id}
                 heading={widget.heading}
-                canDelete={editMode}
+                {...widgetCommonProps}
                 onDelete={() => deleteWidget(widget.id)}
               >
                 {widget.content}
@@ -137,7 +160,7 @@ export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
               className="mb-4"
               key={widget.id}
               heading={widget.heading}
-              canDelete={editMode}
+              {...widgetCommonProps}
               onDelete={() => deleteWidget(widget.id)}
             >
               {widget.content}
@@ -151,10 +174,10 @@ export default function DashboardPage({ deletedWidgets }: DashboardPageProps) {
           .filter((widget) => !deletedWidgets?.includes(widget.id))
           .map((widget) => (
             <Widget
-              className="mb-4"
+              // className="mb-4"
               key={widget.id}
               heading={widget.heading}
-              canDelete={editMode}
+              {...widgetCommonProps}
               onDelete={() => deleteWidget(widget.id)}
             >
               {widget.content}

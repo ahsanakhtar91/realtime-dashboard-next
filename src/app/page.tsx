@@ -1,5 +1,5 @@
-import DashboardPage from "@/components/DashboardPage";
 import { cookies } from "next/headers";
+import App from "@/components/App";
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -8,5 +8,5 @@ export default async function Home() {
 
   const deletedWidgetsArray = deletedWidgets ? JSON.parse(deletedWidgets) : [];
 
-  return <DashboardPage deletedWidgets={deletedWidgetsArray} />;
+  return <App deletedWidgets={deletedWidgetsArray} />;
 }

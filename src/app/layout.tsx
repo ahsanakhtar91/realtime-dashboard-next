@@ -47,10 +47,13 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en">
-      <body style={styleTokens as CSSProperties} data-theme={theme}>
-        {children}
-      </body>
+    <html
+      lang="en"
+      style={styleTokens as CSSProperties}
+      className="bg-[var(--color-root)]"
+      data-theme={theme}
+    >
+      <body>{children}</body>
     </html>
   );
 }

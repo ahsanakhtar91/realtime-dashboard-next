@@ -20,6 +20,17 @@ const Widget: React.FC<WidgetProps> = ({
   onDelete,
   children,
 }) => {
+  const loadingIndicatorHeading = (
+    <div className="animate-pulse bg-[var(--color-border)] w-25 h-6 rounded-xl" />
+  );
+
+  const loadingIndicatorContent = (
+    <div className="flex flex-col gap-3">
+      <div className="animate-pulse bg-[var(--color-border)] w-full h-16 rounded-xl" />
+      <div className="animate-pulse bg-[var(--color-border)] w-full h-16 rounded-xl" />
+    </div>
+  );
+
   return (
     <div
       className={classNames(
@@ -28,7 +39,7 @@ const Widget: React.FC<WidgetProps> = ({
       )}
     >
       <div className="flex flex-row items-center justify-between h-12 p-3 text-[15px] font-normal border-b border-[var(--color-border)]">
-        <div>{heading}</div>
+        <div>{loading ? loadingIndicatorHeading : heading}</div>
         {canDelete && (
           <Button
             icon={<XIcon height={18} className="fill-current" />}
@@ -38,7 +49,7 @@ const Widget: React.FC<WidgetProps> = ({
         )}
       </div>
       <div className="p-3 text-[13px] min-h-42">
-        {children}
+        {loading ? loadingIndicatorContent : children}
       </div>
     </div>
   );

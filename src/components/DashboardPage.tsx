@@ -5,7 +5,6 @@ import { Button } from "@/components/Button";
 import {
   PauseCircleIcon,
   PlayIcon,
-  RedoIcon,
   RefreshIcon,
 } from "@shopify/polaris-icons";
 import { Text } from "@/components/Text";

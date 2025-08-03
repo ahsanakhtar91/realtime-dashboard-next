@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 
-export default function MapView({ locations }: { locations?: Location[] }) {
+export default function MapWidget({ locations }: { locations?: Location[] }) {
   if (!locations || locations.length === 0) {
     return <div>No locations available.</div>;
   }

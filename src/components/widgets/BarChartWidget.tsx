@@ -11,19 +11,23 @@ import {
 
 type FormattedData = { key: string; value: string | number };
 
-export const ChartWidget = ({
-  data,
-  direction = "bottom-to-top",
-}: {
+type BarChartWidgetProps = {
   data?: ChartData;
   direction?: "bottom-to-top" | "left-to-right";
-}) => {
-  if (!data) return null;
+};
 
+export const BarChartWidget = ({
+  data,
+  direction = "bottom-to-top",
+}: BarChartWidgetProps) => {
   const formattedData = useMemo(() => {
-    const arr: FormattedData[] = [];
-    data.labels.forEach((k, i) => arr.push({ key: k, value: data.data[i] }));
-    return arr;
+    if (!data) return [];
+
+    const dataArr: FormattedData[] = [];
+    data.labels.forEach((k, i) =>
+      dataArr.push({ key: k, value: data.data[i] })
+    );
+    return dataArr;
   }, [data]);
 
   return (
@@ -53,22 +57,19 @@ export const ChartWidget = ({
         <Tooltip
           content={({ payload }) => {
             if (!payload) return null;
-            const d = payload?.[0]?.payload as unknown as FormattedData;
-            if (!d) return null;
+            const item = payload?.[0]?.payload as unknown as FormattedData;
+            if (!item) return null;
             return (
-              <div className="w-fit p-2 flex gap-1 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] text-center text-[var(--color-text)]!">
-                <span className="font-bold">
-                  {d.key}
-                  {": "}
-                </span>
-                <span>{d.value}</span>
+              <div className="w-fit p-2 flex flex-col gap-1 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] text-center text-[var(--color-text)]!">
+                <span className="font-bold self-start">{item.key}</span>
+                <span>Total Sales: {item.value}</span>
               </div>
             );
           }}
         />
         <Bar
           dataKey="value"
-          maxBarSize={direction === "bottom-to-top" ? 45 : 38}
+          maxBarSize={36}
           fill="var(--color-chart-bars)"
           className="text-[var(--color-text)]"
         />

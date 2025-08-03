@@ -1,9 +1,9 @@
 import React from "react";
 import classNames from "classnames";
-import { Button } from "./Button";
+import { Button } from "@/components/Button";
 import { XIcon } from "@shopify/polaris-icons";
 
-interface WidgetProps {
+interface WidgetContainerProps {
   className?: string;
   heading: string;
   loading?: boolean;
@@ -12,7 +12,7 @@ interface WidgetProps {
   children?: React.ReactNode;
 }
 
-const Widget: React.FC<WidgetProps> = ({
+export const WidgetContainer: React.FC<WidgetContainerProps> = ({
   className,
   heading,
   loading,
@@ -54,5 +54,3 @@ const Widget: React.FC<WidgetProps> = ({
     </div>
   );
 };
-
-export default Widget;

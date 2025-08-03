@@ -5,13 +5,10 @@ import { Button } from "@/components/Button";
 import { PauseCircleIcon, PlayIcon, RefreshIcon } from "@shopify/polaris-icons";
 import { Text } from "@/components/Text";
 import { toggleTheme } from "@/app/actions/toggleTheme";
-import Widget from "@/components/Widget";
+import { WidgetContainer } from "@/components/widgets/WidgetContainer";
 import { useBreakpoints } from "@shopify/polaris";
 import { deleteWidget } from "@/app/actions/deleteWidget";
 import { useQuery } from "@tanstack/react-query";
-const MapView = dynamic(() => import("@/components/widgets/MapView"), {
-  loading: () => <p>Loading Map...</p>,
-});
 import { fetchDashboardData } from "@/data/dashboard/fetchDashboardData";
 import { Theme } from "@/app/types";
 import { toast } from "react-toastify";
@@ -20,7 +17,10 @@ import {
   DashboardApiResponse,
 } from "@/data/dashboard/types";
 import dynamic from "next/dynamic";
-import { ChartWidget } from "@/components/widgets/ChartWidget";
+const MapWidget = dynamic(() => import("@/components/widgets/MapWidget"), {
+  loading: () => <p>Loading Map...</p>,
+});
+import { BarChartWidget } from "@/components/widgets/BarChartWidget";
 
 const iconProps = {
   height: 18,
@@ -102,16 +102,28 @@ export default function DashboardPage({
           id: "orders",
           heading: "Orders",
           content: (
-            <ChartWidget
+            <BarChartWidget
               data={dashboardData?.charts?.userEngagement}
-              direction="bottom-to-top"
+              direction="left-to-right"
             />
           ),
         },
         {
           id: "top-products",
           heading: "Top Products",
-          content: <div>Top Products Content...</div>,
+          content: (
+            <BarChartWidget
+              data={{
+                labels: (dashboardData?.tables?.topProducts ?? []).map(
+                  (item) => item.name
+                ),
+                data: (dashboardData?.tables?.topProducts ?? []).map(
+                  (item) => item.sales
+                ),
+              }}
+              direction="bottom-to-top"
+            />
+          ),
         },
       ],
       row2: [
@@ -130,11 +142,13 @@ export default function DashboardPage({
         {
           id: "locations",
           heading: "Locations",
-          content: <MapView locations={dashboardData?.map?.locations ?? []} />,
+          content: (
+            <MapWidget locations={dashboardData?.map?.locations ?? []} />
+          ),
         },
       ],
     }),
-    [dashboardData?.map?.locations]
+    [dashboardData]
   );
 
   const widgetCommonProps = {
@@ -181,14 +195,14 @@ export default function DashboardPage({
       {/* Widgets in Row #1 (Summary, Orders, Top Products) */}
       <div className="w-full px-4 flex lg:gap-4 flex-col lg:flex-row">
         {!deletedWidgets?.includes(widgets.row1[0].id) && (
-          <Widget
+          <WidgetContainer
             className="mb-4"
             heading={widgets.row1[0].heading}
             {...widgetCommonProps}
             onDelete={() => deleteWidget(widgets.row1[0].id)}
           >
             {widgets.row1[0].content}
-          </Widget>
+          </WidgetContainer>
         )}
 
         <div className="flex sm:gap-4 flex-2 flex-col sm:flex-row">
@@ -196,7 +210,7 @@ export default function DashboardPage({
             .slice(1)
             .filter((widget) => !deletedWidgets?.includes(widget.id))
             .map((widget) => (
-              <Widget
+              <WidgetContainer
                 className="mb-4"
                 key={widget.id}
                 heading={widget.heading}
@@ -204,7 +218,7 @@ export default function DashboardPage({
                 onDelete={() => deleteWidget(widget.id)}
               >
                 {widget.content}
-              </Widget>
+              </WidgetContainer>
             ))}
         </div>
       </div>
@@ -214,7 +228,7 @@ export default function DashboardPage({
         {widgets.row2
           .filter((widget) => !deletedWidgets?.includes(widget.id))
           .map((widget) => (
-            <Widget
+            <WidgetContainer
               className="mb-4"
               key={widget.id}
               heading={widget.heading}
@@ -222,7 +236,7 @@ export default function DashboardPage({
               onDelete={() => deleteWidget(widget.id)}
             >
               {widget.content}
-            </Widget>
+            </WidgetContainer>
           ))}
       </div>
 
@@ -231,7 +245,7 @@ export default function DashboardPage({
         {widgets.row3
           .filter((widget) => !deletedWidgets?.includes(widget.id))
           .map((widget) => (
-            <Widget
+            <WidgetContainer
               // className="mb-4"
               key={widget.id}
               heading={widget.heading}
@@ -239,7 +253,7 @@ export default function DashboardPage({
               onDelete={() => deleteWidget(widget.id)}
             >
               {widget.content}
-            </Widget>
+            </WidgetContainer>
           ))}
       </div>
     </div>

@@ -2,17 +2,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/Button";
-import {
-  PauseCircleIcon,
-  PlayIcon,
-  RefreshIcon,
-} from "@shopify/polaris-icons";
+import { PauseCircleIcon, PlayIcon, RefreshIcon } from "@shopify/polaris-icons";
 import { Text } from "@/components/Text";
 import { toggleTheme } from "@/app/actions/toggleTheme";
 import Widget from "@/components/Widget";
 import { useBreakpoints } from "@shopify/polaris";
 import { deleteWidget } from "@/app/actions/deleteWidget";
 import { useQuery } from "@tanstack/react-query";
+const MapView = dynamic(() => import("@/components/widgets/MapView"), {
+  loading: () => <p>Loading Map...</p>,
+});
 import { fetchDashboardData } from "@/data/dashboard/fetchDashboardData";
 import { Theme } from "@/app/types";
 import { toast } from "react-toastify";
@@ -21,10 +20,7 @@ import {
   DashboardApiResponse,
 } from "@/data/dashboard/types";
 import dynamic from "next/dynamic";
-const MapView = dynamic(() => import("@/components/widgets/MapView"), {
-  ssr: false,
-  loading: () => <p>Loading Map...</p>,
-});
+import { ChartWidget } from "@/components/widgets/ChartWidget";
 
 const iconProps = {
   height: 18,
@@ -105,7 +101,12 @@ export default function DashboardPage({
         {
           id: "orders",
           heading: "Orders",
-          content: <div>Orders Content...</div>,
+          content: (
+            <ChartWidget
+              data={dashboardData?.charts?.userEngagement}
+              direction="bottom-to-top"
+            />
+          ),
         },
         {
           id: "top-products",

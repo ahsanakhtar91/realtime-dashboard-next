@@ -19,7 +19,7 @@ type DashboardData = {
   };
 };
 
-type ChartData = {
+export type ChartData = {
   labels: string[];
   data: number[];
 };

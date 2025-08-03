@@ -1,8 +1,11 @@
 import { ChartData } from "@/data/dashboard/types";
 import React, { useMemo } from "react";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
+  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -11,15 +14,19 @@ import {
 
 type FormattedData = { key: string; value: string | number };
 
-type BarChartWidgetProps = {
-  data?: ChartData;
+type ChartWidgetProps = {
+  type?: "bar-chart" | "area-chart";
   direction?: "bottom-to-top" | "left-to-right";
+  data?: ChartData;
+  valueLabelInTooltip?: string;
 };
 
-export const BarChartWidget = ({
-  data,
+export const ChartWidget = ({
+  type = "bar-chart",
   direction = "bottom-to-top",
-}: BarChartWidgetProps) => {
+  data,
+  valueLabelInTooltip = "Value",
+}: ChartWidgetProps) => {
   const formattedData = useMemo(() => {
     if (!data) return [];
 
@@ -30,9 +37,11 @@ export const BarChartWidget = ({
     return dataArr;
   }, [data]);
 
+  const Component = type === "bar-chart" ? BarChart : AreaChart;
+
   return (
     <ResponsiveContainer className="w-full! h-[250px]!">
-      <BarChart
+      <Component
         data={formattedData}
         margin={{ top: 20, right: 20, bottom: 0, left: -5 }}
         layout={direction === "bottom-to-top" ? undefined : "vertical"}
@@ -64,18 +73,43 @@ export const BarChartWidget = ({
             return (
               <div className="w-fit p-2 flex flex-col gap-1 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] text-center text-[var(--color-text)]!">
                 <span className="font-bold self-start">{item.key}</span>
-                <span>Total Sales: {item.value}</span>
+                <span>
+                  {valueLabelInTooltip}: {item.value}
+                </span>
               </div>
             );
           }}
         />
-        <Bar
-          dataKey="value"
-          maxBarSize={36}
-          className="fill-[var(--color-chart-bars)] cursor-pointer"
-          activeBar={{ className: "opacity-75" }}
-        />
-      </BarChart>
+        {type === "bar-chart" ? (
+          <Bar
+            dataKey="value"
+            maxBarSize={36}
+            className="fill-[var(--color-chart-bars)] cursor-pointer"
+            activeBar={{ className: "opacity-75" }}
+          />
+        ) : (
+          <>
+            <Line
+              type="monotone"
+              dataKey="value"
+              strokeWidth={0}
+              dot={{ className: "hidden" }}
+              activeDot={{ stroke: "var(--color-chart-bars)", strokeWidth: 4 }}
+            />
+            <defs>
+              <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="65%"
+                  stopColor="var(--color-chart-bars)"
+                  stopOpacity="1"
+                />
+                <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
+              </linearGradient>
+            </defs>
+            <Area type="monotone" dataKey="value" fill="url(#areaGradient)" />
+          </>
+        )}
+      </Component>
     </ResponsiveContainer>
   );
 };

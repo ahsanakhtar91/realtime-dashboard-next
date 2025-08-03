@@ -20,7 +20,7 @@ import dynamic from "next/dynamic";
 const MapWidget = dynamic(() => import("@/components/widgets/MapWidget"), {
   loading: () => <p>Loading Map...</p>,
 });
-import { BarChartWidget } from "@/components/widgets/BarChartWidget";
+import { ChartWidget } from "@/components/widgets/ChartWidget";
 
 const iconProps = {
   height: 18,
@@ -102,9 +102,11 @@ export default function DashboardPage({
           id: "orders",
           heading: "Orders",
           content: (
-            <BarChartWidget
-              data={dashboardData?.charts?.userEngagement}
+            <ChartWidget
+              type="bar-chart"
               direction="left-to-right"
+              data={dashboardData?.charts?.userEngagement}
+              valueLabelInTooltip="Total Sales"
             />
           ),
         },
@@ -112,7 +114,9 @@ export default function DashboardPage({
           id: "top-products",
           heading: "Top Products",
           content: (
-            <BarChartWidget
+            <ChartWidget
+              type="bar-chart"
+              direction="bottom-to-top"
               data={{
                 labels: (dashboardData?.tables?.topProducts ?? []).map(
                   (item) => item.name
@@ -121,7 +125,7 @@ export default function DashboardPage({
                   (item) => item.sales
                 ),
               }}
-              direction="bottom-to-top"
+              valueLabelInTooltip="Total Sales"
             />
           ),
         },
@@ -130,7 +134,14 @@ export default function DashboardPage({
         {
           id: "total-sales",
           heading: "Total sales over time",
-          content: <div>Total Sales Content...</div>,
+          content: (
+            <ChartWidget
+              type="area-chart"
+              direction="bottom-to-top"
+              data={dashboardData?.charts?.salesOverTime}
+              valueLabelInTooltip="Total Sales"
+            />
+          ),
         },
         {
           id: "payments-history",

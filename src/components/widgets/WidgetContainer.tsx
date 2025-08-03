@@ -47,7 +47,7 @@ export const WidgetContainer = ({
           />
         )}
       </div>
-      <div className="p-3 text-[13px] min-h-42">
+      <div className="p-3 text-[13px] min-h-62">
         {loading ? loadingIndicatorContent : children}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { ChartData } from "@/data/dashboard/types";
+import { formatNumber } from "@/utils/utils";
 import React, { useMemo } from "react";
 import {
   Area,
@@ -48,7 +49,7 @@ export const ChartWidget = ({
         data={formattedData}
         margin={{ top: 20, right: 20, bottom: 0, left: -5 }}
         layout={direction === "bottom-to-top" ? undefined : "vertical"}
-        className="[&>svg]:focus:outline-none!"
+        className="[&>svg]:focus:outline-none"
       >
         <XAxis
           type={direction === "bottom-to-top" ? undefined : "number"}
@@ -74,10 +75,10 @@ export const ChartWidget = ({
             const item = payload?.[0]?.payload as FormattedData;
             if (!item) return null;
             return (
-              <div className="w-fit p-2 flex flex-col gap-1 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] text-center text-[var(--color-text)]!">
-                <span className="font-bold self-start">{item.key}</span>
+              <div className="w-fit p-2 flex flex-col gap-1 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] text-left text-[var(--color-text)]">
+                <span className="font-bold">{item.key}</span>
                 <span>
-                  {valueLabelInTooltip}: {item.value}
+                  {valueLabelInTooltip}: {formatNumber(item.value as number)}
                 </span>
               </div>
             );

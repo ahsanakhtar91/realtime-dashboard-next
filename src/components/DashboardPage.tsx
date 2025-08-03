@@ -20,6 +20,7 @@ const MapWidget = dynamic(() => import("@/components/widgets/MapWidget"), {
 });
 import { ChartWidget } from "@/components/widgets/ChartWidget";
 import { TableWidget } from "./widgets/TableWidget";
+import { SummaryWidget } from "./widgets/SummaryWidget";
 
 export default function DashboardPage({
   deletedWidgets,
@@ -88,7 +89,7 @@ export default function DashboardPage({
         {
           id: "summary",
           heading: "Summary",
-          content: <div>Summary Content...</div>,
+          content: <SummaryWidget data={dashboardData} />,
         },
         {
           id: "orders",
@@ -98,7 +99,7 @@ export default function DashboardPage({
               type="bar-chart"
               direction="left-to-right"
               data={dashboardData?.charts?.userEngagement}
-              valueLabelInTooltip="Total Sales"
+              valueLabelInTooltip="Total Orders"
             />
           ),
         },

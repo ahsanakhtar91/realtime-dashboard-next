@@ -5,7 +5,7 @@ export type DashboardApiResponse = {
   };
 };
 
-type DashboardData = {
+export type DashboardData = {
   charts: {
     salesOverTime: ChartData;
     userEngagement: ChartData;

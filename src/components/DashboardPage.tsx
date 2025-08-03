@@ -6,7 +6,6 @@ import { PauseCircleIcon, PlayIcon, RefreshIcon } from "@shopify/polaris-icons";
 import { Text } from "@/components/Text";
 import { toggleTheme } from "@/app/actions/toggleTheme";
 import { WidgetContainer } from "@/components/widgets/WidgetContainer";
-import { useBreakpoints } from "@shopify/polaris";
 import { deleteWidget } from "@/app/actions/deleteWidget";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDashboardData } from "@/data/dashboard/fetchDashboardData";
@@ -82,8 +81,6 @@ export default function DashboardPage({
       <PlayIcon height={20} className="fill-current" />
     );
   }, [autofetch]);
-
-  const { smDown } = useBreakpoints();
 
   const widgets = useMemo(
     () => ({

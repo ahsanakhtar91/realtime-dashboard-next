@@ -31,11 +31,12 @@ export const BarChartWidget = ({
   }, [data]);
 
   return (
-    <ResponsiveContainer height={250}>
+    <ResponsiveContainer className="w-full! h-[250px]!">
       <BarChart
         data={formattedData}
         margin={{ top: 20, right: 20, bottom: 0, left: -5 }}
         layout={direction === "bottom-to-top" ? undefined : "vertical"}
+        className="[&>svg]:focus:outline-none!"
       >
         <XAxis
           type={direction === "bottom-to-top" ? undefined : "number"}
@@ -55,9 +56,10 @@ export const BarChartWidget = ({
           className="fill-[var(--color-text)]"
         />
         <Tooltip
+          cursor={false}
           content={({ payload }) => {
             if (!payload) return null;
-            const item = payload?.[0]?.payload as unknown as FormattedData;
+            const item = payload?.[0]?.payload as FormattedData;
             if (!item) return null;
             return (
               <div className="w-fit p-2 flex flex-col gap-1 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] text-center text-[var(--color-text)]!">
@@ -70,8 +72,8 @@ export const BarChartWidget = ({
         <Bar
           dataKey="value"
           maxBarSize={36}
-          fill="var(--color-chart-bars)"
-          className="text-[var(--color-text)]"
+          className="fill-[var(--color-chart-bars)] cursor-pointer"
+          activeBar={{ className: "opacity-75" }}
         />
       </BarChart>
     </ResponsiveContainer>

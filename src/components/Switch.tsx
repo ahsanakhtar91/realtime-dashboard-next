@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 
-type ButtonProps = {
+type SwitchProps = {
   value?: boolean;
   label?: string | ReactNode;
   onChange?: (value: boolean) => void;
 };
 
-export const Switch = ({ value, label, onChange }: ButtonProps) => {
+export const Switch = ({ value, label, onChange }: SwitchProps) => {
   return (
     <label className="inline-flex items-center cursor-pointer select-none">
       <input

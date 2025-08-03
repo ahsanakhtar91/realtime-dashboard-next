@@ -22,11 +22,6 @@ const MapWidget = dynamic(() => import("@/components/widgets/MapWidget"), {
 });
 import { ChartWidget } from "@/components/widgets/ChartWidget";
 
-const iconProps = {
-  height: 18,
-  className: "fill-current",
-};
-
 export default function DashboardPage({
   deletedWidgets,
 }: {
@@ -82,9 +77,9 @@ export default function DashboardPage({
 
   const playPauseIcon = useMemo(() => {
     return autofetch ? (
-      <PauseCircleIcon {...iconProps} />
+      <PauseCircleIcon height={20} className="fill-current" />
     ) : (
-      <PlayIcon {...iconProps} />
+      <PlayIcon height={20} className="fill-current" />
     );
   }, [autofetch]);
 
@@ -180,7 +175,10 @@ export default function DashboardPage({
           <Button
             icon={
               autofetch && isRefetching && !loading ? (
-                <RefreshIcon width={18} className="fill-current animate-spin" />
+                <RefreshIcon
+                  height={18}
+                  className="fill-current animate-spin"
+                />
               ) : (
                 playPauseIcon
               )
@@ -188,10 +186,10 @@ export default function DashboardPage({
             disabled={loading}
             onClick={toggleAutofetch}
           >
-            {`${smDown ? "" : autofetch ? "Pause" : "Start"} auto-fetch`}
+            {`${autofetch ? "Pause" : "Start"} auto-fetch`}
           </Button>
           <Button
-            icon={<RefreshIcon {...iconProps} />}
+            icon={<RefreshIcon height={18} className="fill-current" />}
             outlined
             disabled={loading}
             onClick={async () => {

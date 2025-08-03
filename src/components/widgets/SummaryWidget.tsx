@@ -48,7 +48,7 @@ export const SummaryWidget = ({ data }: SummaryWidgetProps) => {
       {sections.map((section, i) => (
         <div
           key={i}
-          className={cn("flex flex-col p-2.5 gap-1", {
+          className={cn("flex flex-col pb-2 pl-4 pt-3 gap-1", {
             "border-t border-[var(--color-border)]": i > 0,
           })}
         >

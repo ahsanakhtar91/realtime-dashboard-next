@@ -1,6 +1,5 @@
 import { Button } from "@/components/Button";
 import { Switch } from "@/components/Switch";
-import { useBreakpoints } from "@shopify/polaris";
 import { ChartVerticalFilledIcon, SunIcon } from "@shopify/polaris-icons";
 import { restoreAllWidgets } from "@/app/actions/restoreAllWidgets";
 
@@ -15,22 +14,26 @@ export const Header = ({
   editMode,
   setEditMode,
 }: HeaderProps) => {
-  const { smDown } = useBreakpoints();
-
   return (
     <div className="flex w-full justify-between gap-2 p-3 border-b border-[var(--color-border)] bg-[var(--color-background)] transition-colors">
-      <div className={`flex items-center ${smDown ? "gap-2" : "gap-4"}`}>
+      <div className="flex items-center gap-2 sm:gap-4">
         <Button
           onClick={() => {
             restoreAllWidgets();
             setEditMode?.(false);
           }}
         >
-          {smDown ? "Restore" : "Restore to default"}
+          <span className="hidden sm:flex">Restore to default</span>
+          <span className="flex sm:hidden ">Restore</span>
         </Button>
         <Switch
           value={editMode}
-          label={smDown ? "Edit" : "Edit mode"}
+          label={
+            <>
+              <span className="hidden sm:flex">Edit mode</span>
+              <span className="flex sm:hidden ">Edit</span>
+            </>
+          }
           onChange={setEditMode}
         />
       </div>

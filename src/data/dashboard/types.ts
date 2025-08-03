@@ -11,7 +11,7 @@ type DashboardData = {
     userEngagement: ChartData;
   };
   tables: {
-    recentTransactions: Transaction[];
+    recentTransactions: TableRow[];
     topProducts: Product[];
   };
   map: {
@@ -24,7 +24,7 @@ export type ChartData = {
   data: number[];
 };
 
-type Transaction = {
+export type TableRow = {
   id: number;
   user: string;
   amount: string; // "$176" — string because of currency format

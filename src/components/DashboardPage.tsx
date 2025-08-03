@@ -1,4 +1,3 @@
-"use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/Button";
@@ -20,6 +19,7 @@ const MapWidget = dynamic(() => import("@/components/widgets/MapWidget"), {
   loading: () => <p>Loading Map...</p>,
 });
 import { ChartWidget } from "@/components/widgets/ChartWidget";
+import { TableWidget } from "./widgets/TableWidget";
 
 export default function DashboardPage({
   deletedWidgets,
@@ -138,7 +138,9 @@ export default function DashboardPage({
         {
           id: "payments-history",
           heading: "Payments history",
-          content: <div>Payments History Content...</div>,
+          content: (
+            <TableWidget data={dashboardData?.tables?.recentTransactions} />
+          ),
         },
       ],
       row3: [
@@ -198,7 +200,7 @@ export default function DashboardPage({
         </div>
       </div>
 
-      {/* Widgets in Row #1 (Summary, Orders, Top Products) */}
+      {/* Widgets in Row #1 (summary, orders, top-products) */}
       <div className="w-full px-4 flex lg:gap-4 flex-col lg:flex-row">
         {!deletedWidgets?.includes(widgets.row1[0].id) && (
           <WidgetContainer
@@ -229,7 +231,7 @@ export default function DashboardPage({
         </div>
       </div>
 
-      {/* Widgets in Row #2 (Total Sales, Payments History) */}
+      {/* Widgets in Row #2 (total-sales, payments-history) */}
       <div className="w-full px-4 flex sm:gap-4 flex-col sm:flex-row">
         {widgets.row2
           .filter((widget) => !deletedWidgets?.includes(widget.id))
@@ -246,7 +248,7 @@ export default function DashboardPage({
           ))}
       </div>
 
-      {/* Widget in Row #3 (Locations) */}
+      {/* Widget in Row #3 (locations) */}
       <div className="w-full px-4">
         {widgets.row3
           .filter((widget) => !deletedWidgets?.includes(widget.id))

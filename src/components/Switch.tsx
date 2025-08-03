@@ -1,8 +1,8 @@
-import React from "react";
+import { ReactNode } from "react";
 
 type ButtonProps = {
   value?: boolean;
-  label?: string;
+  label?: string | ReactNode;
   onChange?: (value: boolean) => void;
 };
 

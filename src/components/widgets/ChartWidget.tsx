@@ -12,7 +12,10 @@ import {
   YAxis,
 } from "recharts";
 
-type FormattedData = { key: string; value: string | number };
+type FormattedData = {
+  key: string;
+  value: string | number;
+};
 
 type ChartWidgetProps = {
   type?: "bar-chart" | "area-chart";

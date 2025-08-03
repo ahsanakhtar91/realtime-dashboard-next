@@ -1,9 +1,8 @@
-import React from "react";
 import classNames from "classnames";
 import { Button } from "@/components/Button";
 import { XIcon } from "@shopify/polaris-icons";
 
-interface WidgetContainerProps {
+type WidgetContainerProps = {
   className?: string;
   heading: string;
   loading?: boolean;
@@ -12,14 +11,14 @@ interface WidgetContainerProps {
   children?: React.ReactNode;
 }
 
-export const WidgetContainer: React.FC<WidgetContainerProps> = ({
+export const WidgetContainer = ({
   className,
   heading,
   loading,
   canDelete,
   onDelete,
   children,
-}) => {
+}: WidgetContainerProps) => {
   const loadingIndicatorHeading = (
     <div className="animate-pulse bg-[var(--color-border)] w-25 h-6 rounded-xl" />
   );

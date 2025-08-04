@@ -1,5 +1,5 @@
 
-## 🛠️ My Dev Journey | Building a Real-Time Dashboard in Next.js (July 30 – August 3, 2025)
+## 📊 My Dev Journey | Building a Real-Time Dashboard in Next.js (July 30 – August 3, 2025)
 
 This is a full behind-the-scenes log of how I built this real-time dashboard app using **Next.js 15**, **Tailwind CSS**, **Typescript** along with the libs like **recharts**, **React Query** and **react-leaflet** to be evaluated by the team at **Bask Health**.
 
@@ -9,7 +9,7 @@ This app is deployed to **Vercel** so all team members can easily access and eva
 
 - 🚀 **Live App URL**: **https://ahsan-bask-health.vercel.app**
 
-- 📹 **Loom Walk‑through video**: *Coming up next...*
+- 📹 **Loom Walk‑through video**: **https://www.loom.com/share/00315090b3a04592b11189cb57d3ad07**
 
 **I’ve tried to keep my commits meaningful, and any commit that starts with a `*` is where something significant happened. Here's how it all went down:**
 
@@ -57,18 +57,19 @@ This app is deployed to **Vercel** so all team members can easily access and eva
 
 ### 🛠️ Editable Layout (Backed by Server State)
 
-- *Added Edit Mode Switch in the `Header` and Delete icons on each empty `Widgets` till this point*  
-  - Enabled delete buttons for each widget (top-right), conditionally rendered when edit mode is on.
+- *Created a custom `Switch` component using Tailwind to render **Edit Mode** switch in the `Header` (top-left) and Delete icons on each empty `Widgets` till this point*  
+  - Added **Restore to default** button (top-left), it updates the layout by restoring all the widgets which have been deleted (puts them all back in their positions).
+  - Enabled delete buttons for each widget (top-right in each widget), conditionally rendered when edit mode is on.
 
-- *Implemented full delete/restore functionality on the **backend** via cookies*  
-  - I liked this. Instead of handling layout state purely on client, I used `cookies` to persist deleted/restored widgets on the server-side. Layout adjusted properly on the fly.
-  - Two new server actions were implemented and used for this use-case: `deleteWidget` and `restoreAllWidgets`
+- *Implemented full delete/restore functionality on the **server** side via cookies*  
+  - Instead of handling layout state purely on client, I used `cookies` to persist deleted widgets on the server-side. Layout adjusted properly on the fly (thanks to `Flexbox` layout).
+  - Two new server actions were implemented for this use-case: `deleteWidget` and `restoreAllWidgets`
 
-- *Integrated API calls into frontend with React Query; added polling (`refetchInterval` using React Query`)*.
+- *Integrated API calls into frontend with React Query; added polling (`refetchInterval` using `React Query`)*.
 
 - I then moved the data fetching code as API inside `/app/api/route.ts` (to be called on frontend).
   - By doing this I avoided CORS issue.
-  - Another reason: Because I wanted to hide the `AUTH_TOKEN`  in the client/browser (kept it secret).
+  - Another reason: Because I wanted to hide the `AUTH_TOKEN` away from the client/browser (kept it secret).
   - More cleanup + better separation of concerns between frontend and API proxy.
 
 - *Implemented loading skeletons on widgets as per Figma design*  
@@ -136,4 +137,4 @@ I had one idea that's now in my wish-list (or you can say on my todo-list):
 
 - 🚀 **Live App URL**: **https://ahsan-bask-health.vercel.app**
 
-- 📹 **Loom Walk‑through video**: *Coming up next...*
+- 📹 **Loom Walk‑through video**: **https://www.loom.com/share/00315090b3a04592b11189cb57d3ad07**

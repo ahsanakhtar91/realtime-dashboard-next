@@ -8,8 +8,12 @@ export async function toggleTheme() {
   const currentTheme = cookieStore.get("theme")?.value as Theme;
 
   // Updating the theme in cookies
-  cookieStore.set("theme", currentTheme === "light" ? "dark" : "light", {
-    path: "/",
-    maxAge: 60 * 60 * 24 * 30, // 30 days
-  });
+  cookieStore.set(
+    "theme",
+    !currentTheme || currentTheme === "light" ? "dark" : "light",
+    {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    }
+  );
 }

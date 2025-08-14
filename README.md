@@ -1,21 +1,20 @@
 
-## 📊 My Dev Journey | Building a Real-Time Dashboard in Next.js (July 30 – August 3, 2025)
+## 📊 My Dev Journey | Building a Real-Time Dashboard in Next.js
 
-This is a full behind-the-scenes log of how I built this real-time dashboard app using **Next.js 15**, **Tailwind CSS**, **Typescript** along with the libs like **recharts**, **React Query** and **react-leaflet** to be evaluated by the team at **Bask Health**.
+This is a full behind-the-scenes log of how I built this real-time dashboard app using **Next.js 15**, **Tailwind CSS**, **Typescript** along with the libs like **recharts**, **React Query** and **react-leaflet**.
 
 My idea was to create something that not only looks clean and performs well, but also shows my thought process and code decisions (like it shows the way I actually work on the production apps for the clients/companies I've worked for till now).
 
-This app is deployed to **Vercel** so all team members can easily access and evaluate it. I have also recorded a **Loom video** where I walk through the core functionality of the app, along with some highlights of the codebase.
+This app is deployed to **Vercel** for everyone to try out. I have also recorded a **Loom video** where I walk through the core functionality of the app, along with some highlights of the codebase.
 
-- 🚀 **Live App URL**: **https://ahsan-bask-health.vercel.app**
+- 🚀 **Live App URL**: **https://realtime-dashboard-next.vercel.app**
 
 - 📹 **Loom Walk‑through video**: **https://www.loom.com/share/00315090b3a04592b11189cb57d3ad07**
 
 **I’ve tried to keep my commits meaningful, and any commit that starts with a `*` is where something significant happened. Here's how it all went down:**
 
-## 🧱 1. Bootstrapping the Project (July 30, 2025)
+## 🧱 1. Bootstrapping the Project
 
-- `Initial commit`
 - Created a new `Next.js 15` project (**app directory structure**) with `TypeScript` and `Tailwind CSS`
   - Got the base up and running. Included Tailwind setup from the start for all of the styling needs.
 
@@ -27,7 +26,7 @@ This app is deployed to **Vercel** so all team members can easily access and eva
 
 - *Then I took the start - I started by building the top level `Header` component first*.
 
-## 🌙 2. UI Theme, Button Component, and Dark Mode (July 30–31, 2025)
+## 🌙 2. UI Theme, Button Component, and Dark Mode
 
 - *Started Dark Mode implementation + created a custom `Button` component*  
   - Started theme support early (built the components by testing them on both light/dark themes). 
@@ -40,7 +39,7 @@ This app is deployed to **Vercel** so all team members can easily access and eva
 
 - *CLIENT SIDE THEME HANDLING TOOK PLACE TILL THIS POINT ONLY. From here onwards, I moved the theme state to be stored on server-side.*
 
-## 🌐 3. Server-Managed Themes + Icon Updates (August 1, 2025)
+## 🌐 3. Server-Managed Themes + Icon Updates
 
 - *Persisted light/dark theme on the server via `toggleTheme` server action*  
   - Created `toggleTheme` server action to **persist theme state (light/dark) in cookies** on server + **Added random styling tokens** for dynamic style variations. `toggleTheme` actions toggles the theme value on server which then passes it onto client. All styling tokens live in server (in **layout.tsx**).
@@ -48,7 +47,7 @@ This app is deployed to **Vercel** so all team members can easily access and eva
 - *Switched to `Polaris` iconography set, removed the existing `lucide` which I was using earlier than this*  
   - Important cleanup to standardize the design language (as per the task requirements).
 
-## 📦 4. Dashboard Layout & Widget System (August 1–2, 2025)
+## 📦 4. Dashboard Layout & Widget System
 
 ### 💡 Flexbox-Based Layout
 
@@ -82,7 +81,7 @@ This app is deployed to **Vercel** so all team members can easily access and eva
 
 ---
 
-## 📊 5. Widgets Rollout Begins (August 3, 2025)
+## 📊 5. Widgets Rollout Begins
 
 Now that the layout + data fetching was solid, I started plugging in actual widget content.
 
@@ -101,7 +100,7 @@ Now that the layout + data fetching was solid, I started plugging in actual widg
 
 ---
 
-## 📄 6. Table + Summary Widgets (all done by EOD August 3, 2025)
+## 📄 6. Table + Summary Widgets
 
 - *Created a `TableWidget` with pagination, built entirely in Tailwind (no libs involved)*  
   - No libraries, just raw Tailwind. Table is fully responsive and supports pagination.
@@ -120,7 +119,7 @@ Here’s what I wanted to show with this project:
 - Reusability (Build once, re-use forever).
 - Real-time data via **polling** with **React Query**.
 - **Server-side persistence** of *layout preferences* and *theme (light/dark)* via **cookies**.
-- Deployed to Vercel so all team members may evaluate easily.
+- Deployed to Vercel for everyone to try out.
 
 ## 🚀 Possible Future Extensions 
 
@@ -135,6 +134,6 @@ I had one idea that's now in my wish-list (or you can say on my todo-list):
 **Ahsan Akhtar** 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin)](https://www.linkedin.com/in/m-ahsan-akhtar) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/ahsanakhtar91) [![CV](https://img.shields.io/badge/CV-8A2BE2?logo=readdotcv)](https://drive.google.com/file/d/1WZWmlD3t8bML3HRjmkP0dUp8BZmStsPj/view)
 
-- 🚀 **Live App URL**: **https://ahsan-bask-health.vercel.app**
+- 🚀 **Live App URL**: **https://realtime-dashboard-next.vercel.app**
 
 - 📹 **Loom Walk‑through video**: **https://www.loom.com/share/00315090b3a04592b11189cb57d3ad07**

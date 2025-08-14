@@ -23,8 +23,10 @@ import { TableWidget } from "./widgets/TableWidget";
 import { SummaryWidget } from "./widgets/SummaryWidget";
 
 export default function DashboardPage({
+  theme,
   deletedWidgets,
 }: {
+  theme: Theme;
   deletedWidgets?: string[];
 }) {
   const [autofetch, setAutofetch] = useState(false);
@@ -52,8 +54,6 @@ export default function DashboardPage({
     return (isLoading || isRefetching) && !autofetch;
   }, [isLoading, isRefetching, autofetch]);
 
-  console.log("Dashboard:", loading, dashboardData, error);
-
   useEffect(() => {
     if (error) {
       toast.error(
@@ -65,7 +65,7 @@ export default function DashboardPage({
           className: "text-sm",
           autoClose: 2500,
           position: "bottom-right",
-          theme: document.body.getAttribute("data-theme") as Theme,
+          theme,
         }
       );
     }
@@ -165,6 +165,7 @@ export default function DashboardPage({
   return (
     <div className="font-sans items-center text-[var(--color-text)] h-full pb-4 transition-colors leading-4">
       <Header
+        theme={theme}
         onThemeToggle={toggleTheme}
         editMode={editMode}
         setEditMode={setEditMode}

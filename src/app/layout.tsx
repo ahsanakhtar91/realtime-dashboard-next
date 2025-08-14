@@ -58,7 +58,7 @@ export default async function RootLayout({
       style={styleTokens as CSSProperties}
       className="bg-[var(--color-root)]"
     >
-      <body data-theme={theme}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

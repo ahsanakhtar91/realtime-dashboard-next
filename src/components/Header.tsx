@@ -1,19 +1,37 @@
+import { useMemo } from "react";
 import { Button } from "@/components/Button";
 import { Switch } from "@/components/Switch";
-import { ChartVerticalFilledIcon, SunIcon } from "@shopify/polaris-icons";
+import {
+  ChartVerticalFilledIcon,
+  SunIcon,
+  MoonIcon,
+} from "@shopify/polaris-icons";
+import { Theme } from "@/app/types";
 import { restoreAllWidgets } from "@/app/actions/restoreAllWidgets";
 
 type HeaderProps = {
+  theme: Theme;
   onThemeToggle: () => void;
   editMode?: boolean;
   setEditMode?: (value: boolean) => void;
 };
 
 export const Header = ({
+  theme,
   onThemeToggle,
   editMode,
   setEditMode,
 }: HeaderProps) => {
+  const themeIcon = useMemo(
+    () =>
+      theme === "dark" ? (
+        <MoonIcon height={20} className="fill-current" />
+      ) : (
+        <SunIcon height={20} className="fill-current" />
+      ),
+    [theme]
+  );
+
   return (
     <div className="flex w-full justify-between gap-2 p-3 border-b border-[var(--color-border)] bg-[var(--color-background)] transition-colors">
       <div className="flex items-center gap-2 sm:gap-4">
@@ -41,10 +59,7 @@ export const Header = ({
         <ChartVerticalFilledIcon height={26} className="fill-current" />
         <div className="font-normal text-2xl">acme</div>
       </div>
-      <Button
-        icon={<SunIcon height={20} className="fill-current" />}
-        onClick={onThemeToggle}
-      />
+      <Button icon={themeIcon} onClick={onThemeToggle} />
     </div>
   );
 };
